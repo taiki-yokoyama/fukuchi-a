@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>パターン登録設定</title>
+    <link rel="stylesheet" href="final.css">
+</head>
+
+<body>
+
+<header>
+    <h1>パターン別の持ち物設定</h1>
+</header>
+
+<main>
+    <section class="card">
+        <div class="form-row">
+            <label for="patternNameInput">パターン名：</label>
+            <input id="patternNameInput" type="text" placeholder="例：大学、遊び">
+        </div>
+
+        <div class="form-row">
+            <label for="patternItemInput">持ち物：</label>
+            <input id="patternItemInput" type="text" placeholder="例：スマホ・お財布">
+            <button class="small-btn" id="patternAddItemBtn">追加</button>
+        </div>
+
+        <p>※同じパターン名に対して、持ち物をどんどん追加していけます。</p>
+    </section>
+
+    <section class="card">
+        <h2 class="sub-title">パターン一覧</h2>
+        <div id="patternTemplatesView"></div>
+    </section>
+
+    <button class="big-btn" onclick="location.href='register.html'">
+        ← 登録画面へ戻る
+    </button>
+</main>
+
+<script src="pattern.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+.home-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px 20px;
+    max-width: 400px;
+    margin: auto;
+}
+
+.big-btn {
+    padding: 20px;
+    font-size: 20px;
+    background: #4c8ef7;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+    transition: 0.2s ease;
+}
+
+.big-btn:hover {
+    background: #3a72c9;
+    transform: translateY(-2px);
+}
+
+.form-row {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-row label {
+    min-width: 50px;
+}
+
+.date-title {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 3px;
+}
+
+.sub-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.small-btn {
+    padding: 6px 10px;
+    font-size: 14px;
+    background: #4c8ef7;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.small-btn:hover {
+    opacity: 0.9;
+}
+
+#existingSection,
+#manualSection,
+#noDataSection,
+#patternSelectSection {
+    margin-top: 15px;
+}
+
+.weekday-block,
+.pattern-block {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 3px solid #eee;
+}
+
+.hint-links p {
+    font-size: 12px;
+    color: #666;
+    margin-top: 8px;
+}
+

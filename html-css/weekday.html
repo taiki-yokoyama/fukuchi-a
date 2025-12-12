@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>曜日で登録設定</title>
+    <link rel="stylesheet" href="final.css">
+</head>
+
+<body>
+
+<header>
+    <h1>曜日ごとの持ち物設定</h1>
+</header>
+
+<main>
+    <section class="card">
+        <div class="form-row">
+            <label for="wdSelect">曜日：</label>
+            <select id="wdSelect">
+                <option value="月">月曜日</option>
+                <option value="火">火曜日</option>
+                <option value="水">水曜日</option>
+                <option value="木">木曜日</option>
+                <option value="金">金曜日</option>
+                <option value="土">土曜日</option>
+                <option value="日">日曜日</option>
+                <option value="毎日">毎日</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label for="wdItemInput">持ち物：</label>
+            <input id="wdItemInput" type="text" placeholder="例：スマホ・パソコン">
+            <button class="small-btn" id="wdAddBtn">追加</button>
+        </div>
+
+        <p>※ここで登録したものが「曜日で登録」で使われます。</p>
+    </section>
+
+    <section class="card">
+        <h2 class="sub-title">曜日ごとの持ち物一覧</h2>
+        <div id="weekdayTemplatesView"></div>
+    </section>
+
+    <button class="big-btn" onclick="location.href='register.html'">
+        ← 登録画面へ戻る
+    </button>
+</main>
+
+<script src="weekday.js"></script>
+</body>
+</html>

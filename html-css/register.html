@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>登録</title>
+    <link rel="stylesheet" href="final.css">
+</head>
+
+<body>
+
+<header>
+    <h1>タグを登録</h1>
+</header>
+
+<main>
+    <section class="card">
+
+        <!-- 日付＋曜日表示 -->
+        <div class="form-row">
+            <label for="dateInput">日付：</label>
+            <input id="dateInput" type="date">
+            <span id="weekdayLabel"></span>
+        </div>
+
+        <!-- すでに登録されている場合に表示するエリア -->
+        <div id="existingSection">
+            <h2 class="sub-title">この日の持ち物</h2>
+            <ul id="existingList"></ul>
+        </div>
+
+        <!-- 追加で自分で登録するエリア -->
+        <div id="manualSection" class="form-row">
+            <label for="itemInput">追加：</label>
+            <input id="itemInput" type="text" placeholder="例：スマホ・鍵">
+            <button class="small-btn" id="addItemBtn">追加</button>
+        </div>
+
+        <!-- まだ何も登録されていない日のときだけ表示する選択肢 -->
+        <div id="noDataSection">
+            <p>この日はまだ持ち物が登録されていません。どうやって登録しますか？</p>
+            <button class="big-btn" id="useWeekdayBtn">曜日で登録</button>
+            <button class="big-btn" id="usePatternBtn">パターンで登録</button>
+            <button class="big-btn" id="useCustomBtn">自分で登録</button>
+
+            <div class="hint-links">
+                <p>
+                    曜日ごとの持ち物テンプレを編集：<br>
+                    <a href="weekday.html">曜日で登録設定ページへ</a>
+                </p>
+                <p>
+                    パターン（大学／遊びなど）を編集：<br>
+                    <a href="pattern.html">パターン登録設定ページへ</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- パターン選択エリア（必要なときだけ表示） -->
+        <div id="patternSelectSection">
+            <p>使うパターンを選んでください：</p>
+            <select id="patternSelect"></select>
+            <button class="small-btn" id="applyPatternBtn">このパターンで登録</button>
+        </div>
+
+    </section>
+
+    <button class="big-btn" onclick="location.href='home.html'">
+        ← ホームへ戻る
+    </button>
+</main>
+
+<script src="register.js"></script>
+</body>
+</html>
