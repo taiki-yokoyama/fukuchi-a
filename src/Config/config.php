@@ -6,7 +6,7 @@ class Config {
     public const SCHEMA_PATH = __DIR__ . '/../../database/schema.sql';
     
     // アプリケーション設定
-    public const APP_NAME = '忘れ物防止アプリ';
+    public const APP_NAME = 'もってくん';
     public const SESSION_NAME = 'baggage_app_session';
     
     // セキュリティ設定

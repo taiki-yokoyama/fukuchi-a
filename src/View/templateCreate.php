@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>テンプレート作成 - 忘れ物防止アプリ</title>
+    <title>テンプレート作成 - もってくん</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -12,7 +12,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <a href="/" class="text-xl font-semibold text-gray-900 hover:text-blue-600">忘れ物防止アプリ</a>
+                    <a href="/" class="text-xl font-semibold text-gray-900 hover:text-blue-600">もってくん</a>
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="/" class="text-gray-700 hover:text-blue-600">トップページ</a>

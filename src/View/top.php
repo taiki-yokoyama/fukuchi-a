@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>トップページ - 忘れ物防止アプリ</title>
+    <title>トップページ - もってくん</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -12,7 +12,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <h1 class="text-xl font-semibold text-gray-900">忘れ物防止アプリ</h1>
+                    <h1 class="text-xl font-semibold text-gray-900">もってくん</h1>
                 </div>
                 <div class="flex items-center space-x-4">
                     <span class="text-gray-700">
@@ -188,7 +188,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('忘れ物防止アプリが読み込まれました');
+            console.log('もってくんが読み込まれました');
         });
 
         // 天気提案をアイテムに追加する関数
