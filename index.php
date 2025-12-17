@@ -13,6 +13,7 @@ require_once __DIR__ . '/src/autoload.php';
 
 // コントローラーの読み込み
 require_once __DIR__ . '/src/Controllers/UserController.php';
+require_once __DIR__ . '/src/Controllers/TopController.php';
 
 // エラーハンドリング設定
 error_reporting(E_ALL);
@@ -30,18 +31,15 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 // クエリパラメータを除去
 $path = parse_url($requestUri, PHP_URL_PATH);
 
-// UserControllerのインスタンス化
+// コントローラーのインスタンス化
 $userController = new UserController();
+$topController = new TopController();
 
 try {
     switch ($path) {
         case '/':
             // トップページ
-            if (!$userController->isLoggedIn()) {
-                header('Location: /login');
-                exit;
-            }
-            showTopPage($userController);
+            $topController->showTop();
             break;
 
         case '/login':
@@ -69,6 +67,23 @@ try {
             }
             break;
 
+        case '/rfid/scan':
+            if ($requestMethod === 'GET') {
+                $topController->showRfidScan();
+            } elseif ($requestMethod === 'POST') {
+                $topController->processRfidScan();
+            }
+            break;
+
+        case '/weather/add-suggestion':
+            if ($requestMethod === 'POST') {
+                $topController->addWeatherSuggestion();
+            } else {
+                http_response_code(405);
+                echo json_encode(['error' => '許可されていないメソッドです']);
+            }
+            break;
+
         default:
             // 404エラー
             http_response_code(404);
@@ -84,15 +99,7 @@ try {
     showErrorPage();
 }
 
-/**
- * トップページを表示
- */
-function showTopPage(UserController $userController): void {
-    $user = $userController->getCurrentUser();
-    $csrfToken = $userController->getCsrfToken();
-    
-    include __DIR__ . '/src/View/top.php';
-}
+
 
 /**
  * 404エラーページを表示
