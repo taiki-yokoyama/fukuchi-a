@@ -120,7 +120,7 @@
                         <a href="/rfid/scan" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-md font-medium text-center inline-block">
                             RFIDスキャン
                         </a>
-                        <a href="/item/manage" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-md font-medium text-center inline-block">
+                        <a href="/item/register" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-md font-medium text-center inline-block">
                             アイテム管理
                         </a>
                     </div>

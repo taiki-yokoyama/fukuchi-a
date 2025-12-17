@@ -20,6 +20,10 @@ class TagId {
         return $this->id;
     }
 
+    public function getValue(): string {
+        return $this->id;
+    }
+
     public function equals(TagId $other): bool {
         return $this->id === $other->id;
     }

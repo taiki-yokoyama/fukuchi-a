@@ -36,7 +36,7 @@ class Item {
         $this->id = $id;
     }
 
-    public function setTagId(TagId $tagId): void {
+    public function setTagId(?TagId $tagId): void {
         $this->tagId = $tagId;
     }
 
