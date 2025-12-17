@@ -7,7 +7,9 @@ class UserController {
     private UserRegisterUsecase $userRegisterUsecase;
 
     public function __construct() {
-        $userRepository = new UserRepositoryImpl();
+        require_once __DIR__ . '/../Infrastructure/pdo.php';
+        $pdo = getPDO();
+        $userRepository = new UserRepositoryImpl($pdo);
         $this->userRegisterUsecase = new UserRegisterUsecase($userRepository);
     }
 

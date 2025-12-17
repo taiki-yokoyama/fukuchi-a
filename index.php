@@ -14,6 +14,7 @@ require_once __DIR__ . '/src/autoload.php';
 // コントローラーの読み込み
 require_once __DIR__ . '/src/Controllers/UserController.php';
 require_once __DIR__ . '/src/Controllers/TopController.php';
+require_once __DIR__ . '/src/Controllers/BaggageController.php';
 
 // エラーハンドリング設定
 error_reporting(E_ALL);
@@ -34,6 +35,7 @@ $path = parse_url($requestUri, PHP_URL_PATH);
 // コントローラーのインスタンス化
 $userController = new UserController();
 $topController = new TopController();
+$baggageController = new BaggageController();
 
 try {
     switch ($path) {
@@ -81,6 +83,14 @@ try {
             } else {
                 http_response_code(405);
                 echo json_encode(['error' => '許可されていないメソッドです']);
+            }
+            break;
+
+        case '/baggage/register':
+            if ($requestMethod === 'GET') {
+                $baggageController->showRegister();
+            } elseif ($requestMethod === 'POST') {
+                $baggageController->register();
             }
             break;
 

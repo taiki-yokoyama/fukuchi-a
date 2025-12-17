@@ -9,8 +9,10 @@ class TopController {
     private TopUsecase $topUsecase;
 
     public function __construct() {
-        $baggageRepository = new BaggageRepositoryImpl();
-        $itemRepository = new ItemRepositoryImpl();
+        require_once __DIR__ . '/../Infrastructure/pdo.php';
+        $pdo = getPDO();
+        $baggageRepository = new BaggageRepositoryImpl($pdo);
+        $itemRepository = new ItemRepositoryImpl($pdo);
         $weatherService = new WeatherService();
         $this->topUsecase = new TopUsecase($baggageRepository, $itemRepository, $weatherService);
     }
@@ -92,7 +94,9 @@ class TopController {
         }
 
         try {
-            $itemRepository = new ItemRepositoryImpl();
+            require_once __DIR__ . '/../Infrastructure/pdo.php';
+            $pdo = getPDO();
+            $itemRepository = new ItemRepositoryImpl($pdo);
             $item = $itemRepository->findByTagId($tagId);
             
             if ($item === null) {
@@ -155,8 +159,10 @@ class TopController {
             
             // 今日の日付で持ち物セットを作成または取得
             $today = date('Y-m-d');
-            $baggageRepository = new BaggageRepositoryImpl();
-            $itemRepository = new ItemRepositoryImpl();
+            require_once __DIR__ . '/../Infrastructure/pdo.php';
+            $pdo = getPDO();
+            $baggageRepository = new BaggageRepositoryImpl($pdo);
+            $itemRepository = new ItemRepositoryImpl($pdo);
             
             // 既存の今日の持ち物セットを取得
             $existingBaggages = $baggageRepository->findByUserAndDate($userId, $today);
@@ -232,7 +238,9 @@ class TopController {
         }
 
         require_once __DIR__ . '/../Infrastructure/UserRepositoryImpl.php';
-        $userRepository = new UserRepositoryImpl();
+        require_once __DIR__ . '/../Infrastructure/pdo.php';
+        $pdo = getPDO();
+        $userRepository = new UserRepositoryImpl($pdo);
         return $userRepository->findById($_SESSION['user_id']);
     }
 

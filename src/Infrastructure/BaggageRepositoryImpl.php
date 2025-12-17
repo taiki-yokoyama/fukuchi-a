@@ -11,9 +11,9 @@ class BaggageRepositoryImpl implements BaggageRepository {
     private PDO $pdo;
     private ItemRepositoryImpl $itemRepository;
 
-    public function __construct() {
-        $this->pdo = DatabaseConnection::getInstance();
-        $this->itemRepository = new ItemRepositoryImpl();
+    public function __construct(PDO $pdo) {
+        $this->pdo = $pdo;
+        $this->itemRepository = new ItemRepositoryImpl($pdo);
     }
 
     public function findByUserAndDate(int $userId, string $date): array {

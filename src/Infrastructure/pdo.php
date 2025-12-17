@@ -34,3 +34,10 @@ class DatabaseConnection {
         self::$pdo = null;
     }
 }
+
+/**
+ * PDOインスタンスを取得する便利関数
+ */
+function getPDO(): PDO {
+    return DatabaseConnection::getInstance();
+}

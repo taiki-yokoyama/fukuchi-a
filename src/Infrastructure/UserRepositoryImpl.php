@@ -7,8 +7,8 @@ require_once __DIR__ . '/pdo.php';
 class UserRepositoryImpl implements UserRepository {
     private PDO $pdo;
 
-    public function __construct() {
-        $this->pdo = DatabaseConnection::getInstance();
+    public function __construct(PDO $pdo) {
+        $this->pdo = $pdo;
     }
 
     public function findById(int $id): ?User {
