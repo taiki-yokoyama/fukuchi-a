@@ -94,6 +94,35 @@ try {
             }
             break;
 
+        case '/template/create':
+            if ($requestMethod === 'GET') {
+                $baggageController->showCreateTemplate();
+            } elseif ($requestMethod === 'POST') {
+                $baggageController->createTemplate();
+            }
+            break;
+
+        case '/template/list':
+            if ($requestMethod === 'GET') {
+                $baggageController->showTemplateList();
+            }
+            break;
+
+        case '/template/select':
+            if ($requestMethod === 'GET') {
+                $baggageController->showSelectTemplate();
+            }
+            break;
+
+        case '/template/apply':
+            if ($requestMethod === 'POST') {
+                $baggageController->applyTemplate();
+            } else {
+                header('Location: /template/select');
+                exit;
+            }
+            break;
+
         default:
             // 404エラー
             http_response_code(404);

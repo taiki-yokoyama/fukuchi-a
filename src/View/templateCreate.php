@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>持ち物登録 - 忘れ物防止アプリ</title>
+    <title>テンプレート作成 - 忘れ物防止アプリ</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -16,6 +16,7 @@
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="/" class="text-gray-700 hover:text-blue-600">トップページ</a>
+                    <a href="/template/list" class="text-gray-700 hover:text-blue-600">テンプレート一覧</a>
                     <form method="POST" action="/logout" class="inline">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8'); ?>">
                         <button 
@@ -36,26 +37,8 @@
         <div class="px-4 py-6 sm:px-0">
             <!-- ページタイトル -->
             <div class="mb-8">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-900">持ち物登録</h1>
-                        <p class="mt-2 text-gray-600">日付を選択してアイテムを選んで持ち物を登録してください</p>
-                    </div>
-                    <div class="flex space-x-3">
-                        <a href="/template/create" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                            テンプレート作成
-                        </a>
-                        <a href="/template/select" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a4 4 0 118 0v4m-4 8a2 2 0 100-4 2 2 0 000 4zm6 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                            テンプレートから選択
-                        </a>
-                    </div>
-                </div>
+                <h1 class="text-3xl font-bold text-gray-900">テンプレート作成</h1>
+                <p class="mt-2 text-gray-600">再利用可能な持ち物セットのテンプレートを作成します</p>
             </div>
 
             <!-- エラーメッセージ表示 -->
@@ -77,33 +60,35 @@
                 <?php unset($_SESSION['error']); ?>
             <?php endif; ?>
 
-            <!-- 登録フォーム -->
+            <!-- 作成フォーム -->
             <div class="bg-white shadow rounded-lg">
-                <form method="POST" action="/baggage/register" class="p-6 space-y-6">
+                <form method="POST" action="/template/create" class="p-6 space-y-6">
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8'); ?>">
                     
-                    <!-- 日付選択 -->
+                    <!-- テンプレート名入力 -->
                     <div>
-                        <label for="date" class="block text-sm font-medium text-gray-700 mb-2">
-                            日付を選択 <span class="text-red-500">*</span>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
+                            テンプレート名 <span class="text-red-500">*</span>
                         </label>
                         <input 
-                            type="date" 
-                            id="date" 
-                            name="date" 
-                            value="<?php echo htmlspecialchars($_SESSION['old_input']['date'] ?? $defaultDate, ENT_QUOTES, 'UTF-8'); ?>"
-                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm <?php echo isset($_SESSION['errors']['date']) ? 'border-red-300' : ''; ?>"
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            value="<?php echo htmlspecialchars($_SESSION['old_input']['name'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"
+                            placeholder="例: 出張用、ジム用、日帰り旅行用"
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm <?php echo isset($_SESSION['errors']['name']) ? 'border-red-300' : ''; ?>"
                             required
+                            maxlength="100"
                         >
-                        <?php if (isset($_SESSION['errors']['date'])): ?>
-                            <p class="mt-1 text-sm text-red-600"><?php echo htmlspecialchars($_SESSION['errors']['date'], ENT_QUOTES, 'UTF-8'); ?></p>
+                        <?php if (isset($_SESSION['errors']['name'])): ?>
+                            <p class="mt-1 text-sm text-red-600"><?php echo htmlspecialchars($_SESSION['errors']['name'], ENT_QUOTES, 'UTF-8'); ?></p>
                         <?php endif; ?>
                     </div>
 
                     <!-- アイテム選択 -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-4">
-                            持ち物を選択 <span class="text-red-500">*</span>
+                            テンプレートに含めるアイテムを選択 <span class="text-red-500">*</span>
                         </label>
                         
                         <?php if (empty($items)): ?>
@@ -194,7 +179,7 @@
 
                     <!-- ボタン -->
                     <div class="flex items-center justify-between pt-6 border-t border-gray-200">
-                        <a href="/" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        <a href="/template/list" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
@@ -211,7 +196,7 @@
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
-                                持ち物を登録
+                                テンプレートを作成
                             </button>
                         <?php endif; ?>
                     </div>
@@ -225,6 +210,7 @@
             const checkboxes = document.querySelectorAll('input[name="item_ids[]"]');
             const selectedCountElement = document.getElementById('selected-count');
             const submitButton = document.getElementById('submit-button');
+            const nameInput = document.getElementById('name');
             
             function updateSelectedCount() {
                 const selectedCount = document.querySelectorAll('input[name="item_ids[]"]:checked').length;
@@ -232,8 +218,14 @@
                     selectedCountElement.textContent = selectedCount;
                 }
                 
+                updateSubmitButton();
+            }
+            
+            function updateSubmitButton() {
                 if (submitButton) {
-                    submitButton.disabled = selectedCount === 0;
+                    const selectedCount = document.querySelectorAll('input[name="item_ids[]"]:checked').length;
+                    const hasName = nameInput && nameInput.value.trim().length > 0;
+                    submitButton.disabled = selectedCount === 0 || !hasName;
                 }
             }
             
@@ -245,25 +237,31 @@
                 checkbox.addEventListener('change', updateSelectedCount);
             });
             
+            // テンプレート名の変更を監視
+            if (nameInput) {
+                nameInput.addEventListener('input', updateSubmitButton);
+            }
+            
             // フォーム送信時の確認
             const form = document.querySelector('form');
             if (form) {
                 form.addEventListener('submit', function(e) {
                     const selectedCount = document.querySelectorAll('input[name="item_ids[]"]:checked').length;
+                    const templateName = nameInput.value.trim();
+                    
                     if (selectedCount === 0) {
                         e.preventDefault();
                         alert('少なくとも1つのアイテムを選択してください');
                         return false;
                     }
                     
-                    const date = document.getElementById('date').value;
-                    if (!date) {
+                    if (!templateName) {
                         e.preventDefault();
-                        alert('日付を選択してください');
+                        alert('テンプレート名を入力してください');
                         return false;
                     }
                     
-                    return confirm(`${selectedCount}個のアイテムを${date}の持ち物として登録しますか？`);
+                    return confirm(`テンプレート「${templateName}」を作成しますか？\n選択されたアイテム数: ${selectedCount}個`);
                 });
             }
         });
