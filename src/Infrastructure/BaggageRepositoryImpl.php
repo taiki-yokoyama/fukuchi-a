@@ -17,48 +17,60 @@ class BaggageRepositoryImpl implements BaggageRepository {
     }
 
     public function findByUserAndDate(int $userId, string $date): array {
-        $stmt = $this->pdo->prepare("SELECT * FROM baggages WHERE user_id = ? AND date = ? AND is_template = 0");
-        $stmt->execute([$userId, $date]);
-        $rows = $stmt->fetchAll();
-        
-        $baggages = [];
-        foreach ($rows as $row) {
-            $baggage = new Baggage($row['id'], $row['user_id'], $row['date'], (bool)$row['is_template'], $row['name']);
-            $this->loadItems($baggage);
-            $baggages[] = $baggage;
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM baggages WHERE user_id = ? AND date = ? AND is_template = 0");
+            $stmt->execute([$userId, $date]);
+            $rows = $stmt->fetchAll();
+            
+            $baggages = [];
+            foreach ($rows as $row) {
+                $baggage = new Baggage($row['id'], $row['user_id'], $row['date'], (bool)$row['is_template'], $row['name']);
+                $this->loadItems($baggage);
+                $baggages[] = $baggage;
+            }
+            
+            return $baggages;
+        } catch (PDOException $e) {
+            throw new RuntimeException("持ち物セット検索中にデータベースエラーが発生しました: " . $e->getMessage(), 0, $e);
         }
-        
-        return $baggages;
     }
 
     public function findTemplatesByUser(int $userId): array {
-        $stmt = $this->pdo->prepare("SELECT * FROM baggages WHERE user_id = ? AND is_template = 1");
-        $stmt->execute([$userId]);
-        $rows = $stmt->fetchAll();
-        
-        $templates = [];
-        foreach ($rows as $row) {
-            $baggage = new Baggage($row['id'], $row['user_id'], $row['date'], (bool)$row['is_template'], $row['name']);
-            $this->loadItems($baggage);
-            $templates[] = $baggage;
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM baggages WHERE user_id = ? AND is_template = 1");
+            $stmt->execute([$userId]);
+            $rows = $stmt->fetchAll();
+            
+            $templates = [];
+            foreach ($rows as $row) {
+                $baggage = new Baggage($row['id'], $row['user_id'], $row['date'], (bool)$row['is_template'], $row['name']);
+                $this->loadItems($baggage);
+                $templates[] = $baggage;
+            }
+            
+            return $templates;
+        } catch (PDOException $e) {
+            throw new RuntimeException("テンプレート検索中にデータベースエラーが発生しました: " . $e->getMessage(), 0, $e);
         }
-        
-        return $templates;
     }
 
     public function findById(int $id): ?Baggage {
-        $stmt = $this->pdo->prepare("SELECT * FROM baggages WHERE id = ?");
-        $stmt->execute([$id]);
-        $row = $stmt->fetch();
-        
-        if (!$row) {
-            return null;
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM baggages WHERE id = ?");
+            $stmt->execute([$id]);
+            $row = $stmt->fetch();
+            
+            if (!$row) {
+                return null;
+            }
+            
+            $baggage = new Baggage($row['id'], $row['user_id'], $row['date'], (bool)$row['is_template'], $row['name']);
+            $this->loadItems($baggage);
+            
+            return $baggage;
+        } catch (PDOException $e) {
+            throw new RuntimeException("持ち物セット検索中にデータベースエラーが発生しました: " . $e->getMessage(), 0, $e);
         }
-        
-        $baggage = new Baggage($row['id'], $row['user_id'], $row['date'], (bool)$row['is_template'], $row['name']);
-        $this->loadItems($baggage);
-        
-        return $baggage;
     }
 
     public function save(Baggage $baggage): void {
@@ -98,27 +110,40 @@ class BaggageRepositoryImpl implements BaggageRepository {
             }
             
             $this->pdo->commit();
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
+            
+            // 外部キー制約違反の場合
+            if (strpos($e->getMessage(), 'FOREIGN KEY constraint failed') !== false) {
+                throw new RuntimeException("関連するユーザーまたはアイテムが存在しません", 0, $e);
+            }
+            
+            throw new RuntimeException("持ち物セット保存中にデータベースエラーが発生しました: " . $e->getMessage(), 0, $e);
         } catch (Exception $e) {
             $this->pdo->rollBack();
-            throw $e;
+            throw new RuntimeException("持ち物セット保存中に予期しないエラーが発生しました: " . $e->getMessage(), 0, $e);
         }
     }
 
     private function loadItems(Baggage $baggage): void {
-        $stmt = $this->pdo->prepare("
-            SELECT i.* FROM items i 
-            JOIN baggage_items bi ON i.id = bi.item_id 
-            WHERE bi.baggage_id = ?
-        ");
-        $stmt->execute([$baggage->getId()]);
-        $rows = $stmt->fetchAll();
-        
-        $items = [];
-        foreach ($rows as $row) {
-            $item = $this->itemRepository->createItemFromRow($row);
-            $items[] = $item;
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT i.* FROM items i 
+                JOIN baggage_items bi ON i.id = bi.item_id 
+                WHERE bi.baggage_id = ?
+            ");
+            $stmt->execute([$baggage->getId()]);
+            $rows = $stmt->fetchAll();
+            
+            $items = [];
+            foreach ($rows as $row) {
+                $item = $this->itemRepository->createItemFromRow($row);
+                $items[] = $item;
+            }
+            
+            $baggage->setItems($items);
+        } catch (PDOException $e) {
+            throw new RuntimeException("持ち物セットのアイテム読み込み中にデータベースエラーが発生しました: " . $e->getMessage(), 0, $e);
         }
-        
-        $baggage->setItems($items);
     }
 }

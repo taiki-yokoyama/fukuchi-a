@@ -6,8 +6,8 @@ class ItemName {
         if (empty($name)) {
             throw new InvalidArgumentException("アイテム名は空にできません");
         }
-        if(mb_strlen($name) > 15) {
-            throw new InvalidArgumentException("アイテム名は15文字以内である必要があります");
+        if(strlen($name) > 50) { // Using byte length instead of character length for compatibility
+            throw new InvalidArgumentException("アイテム名は50バイト以内である必要があります");
         }
         $this->name = $name;
     }
