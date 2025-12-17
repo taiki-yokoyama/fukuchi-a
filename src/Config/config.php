@@ -33,4 +33,16 @@ class Config {
         }
         return self::UPLOAD_DIR;
     }
+
+    /**
+     * 設定値を配列として返す（TopUsecaseで使用）
+     */
+    public static function getConfig(): array {
+        return [
+            'weather_api_key' => self::WEATHER_API_KEY,
+            'weather_api_url' => self::WEATHER_API_URL,
+            'db_path' => self::DB_PATH,
+            'upload_dir' => self::getUploadDir(),
+        ];
+    }
 }
